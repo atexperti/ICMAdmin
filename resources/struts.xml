@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "struts-2.1.7.dtd">
+
+<struts>
+
+	<constant name="struts.locale" value="en" />
+	<constant name="struts.custom.i18n.resources" value="properties/global,properties/config" />
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+	<constant name="struts.ui.theme" value="css_xhtml" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.multipart.maxSize" value="709715200" />
+	<package name="default" extends="struts-default " namespace="/">
+		<interceptors>
+			<interceptor name="mylogging"
+				class="org.icm.interceptor.MyLoggingInterceptor">
+			</interceptor>
+			<interceptor-stack name="loggingStack">
+				<interceptor-ref name="mylogging" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+
+			<interceptor name="loginCheck"
+				class="org.icm.interceptor.LoginCheckInterceptor">
+			</interceptor>
+			<interceptor-stack name="loginStack">
+				<interceptor-ref name="loginCheck" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+
+		</interceptors>
+		<global-results>
+			<result name="error">error.jsp</result>
+		</global-results>
+
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception"
+				result="error" />
+		</global-exception-mappings>
+
+
+		<action name="login" class="login" method="doLogin">
+			<interceptor-ref name="loggingStack"></interceptor-ref>
+			<result name="success">home</result>
+			<result name="error">login.jsp</result>
+		</action>
+
+		<action name="logout" class="logout">
+
+			<result name="success">login.jsp</result>
+			<result name="error">login.jsp</result>
+		</action>
+		<action name="locale" class="home">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="success">home.jsp</result>
+		</action>
+
+		<action name="home" class="home">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="success">home.jsp</result>
+		</action>
+
+
+		<!-- Start -->
+		<action name="media" class="media">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="success">media.jsp</result>
+		</action>
+
+		<action name="searchMedia" class="media" method="searchMedia">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="success">media.jsp</result>
+		</action>
+		<action name="modifyMedia" class="media" method="modifyMedia">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="success">media.jsp</result>
+			<result name="input">modifyMedia.jsp</result>
+
+		</action>
+		<action name="submitMedia" class="media" method="submitMedia">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<interceptor-ref name="fileUpload">
+				<param name="maximumSize">709715200</param>
+				<param name="allowedTypes">
+					image/png,image/gif,image/jpeg,image/pjpeg,audio/mp3, video/avi
+				</param>
+			</interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="input">addMedia.jsp</result>
+			<result name="success">media.jsp</result>
+
+		</action>
+
+
+		<action name="editMedia" class="media" method="editMedia">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="input">modifyMedia.jsp</result>
+			<result name="success">media.jsp</result>
+
+		</action>
+
+
+		<action name="addMedia" class="media" method="addMedia">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="input">addMedia.jsp</result>
+
+		</action>
+
+		<!-- End Media -->
+
+
+		<action name="lyrics" class="lyrics">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="success">lyrics.jsp</result>
+		</action>
+		<action name="searchLyrics" class="lyrics" method="searchLyrics">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="success">lyrics.jsp</result>
+		</action>
+		<action name="modifyLyrics" class="lyrics" method="modifyLyrics">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="success">lyrics.jsp</result>
+			<result name="input">modifyLyrics.jsp</result>
+
+		</action>
+		<action name="submitLyrics" class="lyrics" method="submitLyrics">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="input">addLyrics.jsp</result>
+			<result name="success">lyrics.jsp</result>
+
+		</action>
+
+
+		<action name="editLyrics" class="lyrics" method="editLyrics">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="input">modifyLyrics.jsp</result>
+			<result name="success">lyrics.jsp</result>
+
+		</action>
+
+
+		<action name="addLyrics" class="lyrics" method="addLyrics">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="input">addLyrics.jsp</result>
+
+		</action>
+		<!-- End Lyrics- -->
+
+		<!-- Start Articles -->
+		<action name="articles" class="articles">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="success">articles.jsp</result>
+		</action>
+		<action name="searchArticles" class="articles" method="searchArticles">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="success">articles.jsp</result>
+		</action>
+		<action name="modifyArticles" class="articles" method="modifyArticles">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="success">articles.jsp</result>
+			<result name="input">modifyArticle.jsp</result>
+
+		</action>
+		<action name="submitArticles" class="articles" method="submitArticles">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="input">addArticle.jsp</result>
+			<result name="success">articles.jsp</result>
+
+		</action>
+
+
+		<action name="editArticles" class="articles" method="editArticles">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="input">modifyArticle.jsp</result>
+			<result name="success">articles.jsp</result>
+
+		</action>
+
+
+		<action name="addArticles" class="articles" method="addArticles">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="input">addArticle.jsp</result>
+
+		</action>
+
+		<!-- End Articles -->
+
+		<!-- Start Events -->
+		<action name="events" class="events">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="success">events.jsp</result>
+		</action>
+		<action name="searchEvents" class="events" method="searchEvents">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="success">events.jsp</result>
+		</action>
+		<action name="modifyEvents" class="events" method="modifyEvents">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="success">events.jsp</result>
+			<result name="input">modifyEvent.jsp</result>
+
+		</action>
+		<action name="submitEvents" class="events" method="submitEvents">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="input">addEvent.jsp</result>
+			<result name="success">events.jsp</result>
+
+		</action>
+
+
+		<action name="editEvents" class="events" method="editEvents">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="input">modifyEvent.jsp</result>
+			<result name="success">events.jsp</result>
+
+		</action>
+
+
+		<action name="addEvents" class="events" method="addEvents">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="input">addEvent.jsp</result>
+
+		</action>
+
+		<!-- End Events <action name="userMngmt" class="userMngmt" method="execute"> 
+			<result name="success">userMngmt.jsp</result> <result name="input">userMngmt.jsp</result> 
+			</action> -->
+		<!-- Start User Management -->
+		<action name="userMngmt" class="userMngmt">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="success">userMngmt.jsp</result>
+		</action>
+		<action name="searchUsers" class="userMngmt" method="searchUsers">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="success">userMngmt.jsp</result>
+		</action>
+		<action name="modifyUsers" class="userMngmt" method="modifyUsers">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">login.jsp</result>
+			<result name="success">userMngmt.jsp</result>
+			<result name="input">userMngmt.jsp</result>
+
+		</action>
+		<!-- End User Management -->
+
+
+		<!-- <action name="ticketMngmt" class="ticketMngmt" method="execute"> <result 
+			name="success">ticketMngmt.jsp</result> <result name="input">ticketMngmt.jsp</result> 
+			</action> <action name="orderMgmt" class="orderMgmt" method="execute"> <result 
+			name="success">orderMgmt.jsp</result> <result name="input">orderMgmt.jsp</result> 
+			</action> <action name="userMngmt" class="userMngmt" method="execute"> <result 
+			name="success">userMngmt.jsp</result> <result name="input">userMngmt.jsp</result> 
+			</action> -->
+
+
+	</package>
+
+</struts>
